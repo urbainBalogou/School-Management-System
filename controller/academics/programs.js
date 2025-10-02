@@ -1,3 +1,212 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Programs
+ *   description: Gestion des programmes académiques
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Program:
+ *       type: object
+ *       required:
+ *         - name
+ *         - description
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Identifiant auto-généré du programme
+ *         name:
+ *           type: string
+ *           description: Nom du programme
+ *         description:
+ *           type: string
+ *           description: Description du programme
+ *         createdBy:
+ *           type: string
+ *           description: ID de l'administrateur qui a créé le programme
+ *         subjects:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Tableau des IDs de matières associées au programme
+ *       example:
+ *         name: "Informatique"
+ *         description: "Licence en Informatique"
+ */
+
+/**
+ * @swagger
+ * /api/v1/programs:
+ *   post:
+ *     summary: Créer un nouveau programme
+ *     tags: [Programs]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Program'
+ *     responses:
+ *       "201":
+ *         description: Programme créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Program'
+ *       "400":
+ *         description: Requête incorrecte
+ *       "401":
+ *         description: Non autorisé
+ *       "409":
+ *         description: Programme déjà existant
+ *   get:
+ *     summary: Obtenir tous les programmes
+ *     tags: [Programs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: Programmes récupérés avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Program'
+ *       "401":
+ *         description: Non autorisé
+ */
+
+/**
+ * @swagger
+ * /api/v1/programs/{id}:
+ *   get:
+ *     summary: Obtenir un programme par ID
+ *     tags: [Programs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du programme
+ *     responses:
+ *       "200":
+ *         description: Programme récupéré avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Program'
+ *       "401":
+ *         description: Non autorisé
+ *       "404":
+ *         description: Programme non trouvé
+ *   put:
+ *     summary: Mettre à jour un programme
+ *     tags: [Programs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du programme
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Program'
+ *     responses:
+ *       "200":
+ *         description: Programme mis à jour avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Program'
+ *       "400":
+ *         description: Requête incorrecte
+ *       "401":
+ *         description: Non autorisé
+ *       "404":
+ *         description: Programme non trouvé
+ *       "409":
+ *         description: Programme déjà existant
+ *   delete:
+ *     summary: Supprimer un programme
+ *     tags: [Programs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du programme
+ *     responses:
+ *       "200":
+ *         description: Programme supprimé avec succès
+ *       "401":
+ *         description: Non autorisé
+ *       "404":
+ *         description: Programme non trouvé
+ */
+
+/**
+ * @swagger
+ * /api/v1/programs/{id}/subjects:
+ *   put:
+ *     summary: Ajouter une matière à un programme
+ *     tags: [Programs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du programme
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nom de la matière à ajouter
+ *     responses:
+ *       "201":
+ *         description: Matière ajoutée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Program'
+ *       "400":
+ *         description: Requête incorrecte
+ *       "401":
+ *         description: Non autorisé
+ *       "404":
+ *         description: Programme ou matière non trouvée
+ *       "409":
+ *         description: Matière déjà existante dans le programme
+ */
+
+
 const AysncHandler = require("express-async-handler");
 const ClassLevel = require("../../model/Academic/ClassLevel");
 const Program = require("../../model/Academic/Program");

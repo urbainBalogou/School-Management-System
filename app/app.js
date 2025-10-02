@@ -17,6 +17,9 @@ const adminRouter = require("../routes/staff/adminRouter");
 const studentRouter = require("../routes/staff/student");
 const teachersRouter = require("../routes/staff/teachers");
 
+// Intégration Swagger
+const { specs, swaggerUi } = require("../config/swagger");
+
 const app = express();
 
 //Middlewares
@@ -35,6 +38,10 @@ app.use("/api/v1/exams", examRouter);
 app.use("/api/v1/students", studentRouter);
 app.use("/api/v1/questions", questionsRouter);
 app.use("/api/v1/exam-results", examResultRouter);
+
+// Route Swagger UI - À placer avant les middlewares d'erreur
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
 //Error middlewares
 app.use(notFoundErr);
 app.use(globalErrHandler);

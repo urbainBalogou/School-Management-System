@@ -1,3 +1,43 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Academic Years
+ *   description: Gestion des années académiques
+ */
+
+/**
+ * @swagger
+ * /api/v1/academic-years:
+ *   get:
+ *     summary: Récupérer toutes les années académiques
+ *     tags: [Academic Years]
+ *     responses:
+ *       "200":
+ *         description: Succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       year:
+ *                         type: string
+ *                       status:
+ *                         type: string
+ *       "500":
+ *         description: Erreur serveur
+ */
+
+
+
 const express = require("express");
 const {
   createAcademicYear,
